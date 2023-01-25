@@ -173,6 +173,31 @@ terraform plan
 terraform apply
 ```
 
+### Day 5
+- [x] Created gcp-de-2023 ssh key pair
+```bash
+ssh-keygen -t rsa -f ~/.ssh/gcp-de-2023 -C i.mahesh.sinha -b 2048
+```
+- [x] Added the public key to the GCP Compute Engine Metadata
+- [x] Created a new GCP Compute Engine instance from the GCP console.
+- [x] ssh into the instance
+```bash
+ssh -i ~/.ssh/gcp-de-2023 i.mahesh.sinha@<instance-ip>
+```
+- [x] DOwnload the Anaconda installer
+```bash
+wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
+bash Anaconda3-2022.10-Linux-x86_64.sh
+```
+- [x] Updated the .ssh/config file to add the GCP instance
+```config
+Host de-zoomcamp-2023
+  HostName <INSTANCE-IP>
+  User <USERNAME>
+  IdentityFile <PATH-TO-SSH-KEY>
+```
+
+
 
 
 
