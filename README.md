@@ -105,6 +105,15 @@ python ingest_data.py \
 --postgres_db="ny_taxi" \
 --postgres_table="yellow_taxi_trips"
 ```
+- [x] Run the pgadmin container:
+```bash
+docker run -it \
+-e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+-e PGADMIN_DEFAULT_PASSWORD="root" \
+-p 5050:80 \
+dpage/pgadmin4
+```
+
 
 ### Day 4
 - [x] Created taxi_zones table in the ny_taxi database from upload_data.ipynb notebook
@@ -184,7 +193,7 @@ ssh-keygen -t rsa -f ~/.ssh/gcp-de-2023 -C i.mahesh.sinha -b 2048
 ```bash
 ssh -i ~/.ssh/gcp-de-2023 i.mahesh.sinha@<instance-ip>
 ```
-- [x] DOwnload the Anaconda installer
+- [x] Download the Anaconda installer
 ```bash
 wget https://repo.anaconda.com/archive/Anaconda3-2022.10-Linux-x86_64.sh
 bash Anaconda3-2022.10-Linux-x86_64.sh
@@ -196,8 +205,75 @@ Host de-zoomcamp-2023
   User <USERNAME>
   IdentityFile <PATH-TO-SSH-KEY>
 ```
+- [x] Install docker
+```bash
+sudo apt-get update
+sudo apt-get install docker.io
+```
+- [x] Enable docker without sudo
+```bash
+sudo groupadd docker
+sudo gpasswd -a $USER docker
+<REBOOT THE INSTANCE>
+```
+- [x] Install docker-compose
+```bash
+mkdir bin
+cd bin
+wget https://github.com/docker/compose/releases/download/v2.15.1/docker-compose-linux-x86_64 -O docker-compose
+chmod +x docker-compose  # make it executable
+```
+- [x] Add below line in `.bashrc` file, so that we can run docker-compose without specifying the full path
+```bash
+export PATH="${HOME}/bin:${PATH}"
+```
+- [x] Clone the repo
+```bash
+git clone <REPO URL>
+```
+- [x] Run the docker-compose file
+```bash
+docker-compose up
+```
+- [x] Install pgcli
+```bash
+conda install -c conda-forge pgcli
+pip install -U mycli
+```
 
-
+### Day 6
+- [x] Download terraform on the GCP instance
+```bash
+wget https://releases.hashicorp.com/terraform/1.3.7/terraform_1.3.7_linux_amd64.zip
+unzip terraform_1.3.7_linux_amd64.zip
+terraform --version
+```
+- [x] Copy the GCP service account json file to the GCP instance using sftp
+```bash
+sftp de-zoomcamp-2023
+mkdir .gc
+put <LOCAL-PATH-TO-SERVICE-ACCOUNT-JSON-FILE> .gc
+```
+- [x] Configure the GCP credentials using the service account json file
+```bash
+export GOOGLE_APPLICATION_CREDENTIALS="<PATH-TO-SERVICE-ACCOUNT-JSON-FILE>"
+gcloud auth activate-service-account --key-file $GOOGLE_APPLICATION_CREDENTIALS
+```
+- [x] Copied the terraform state file from local to GCP instance
+```bash
+sftp de-zoomcamp-2023
+put <LOCAL-PATH-TO-STATE-FILE> terraform.tfstate
+```
+- [x] Ran the terraform init command to initialize the terraform.
+```bash
+terraform init
+```
+- [x] Ran the terraform plan command to see the changes that will be made.
+```bash
+terraform plan
+```
+- [x] Home work Week-1 NOTEBOOK URL:
+`week-1-env-setup/Homework-Solutions Week-1.ipynb`
 
 
 
